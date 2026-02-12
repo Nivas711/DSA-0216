@@ -1,0 +1,9 @@
+from google.colab import files
+import cv2
+from google.colab.patches import cv2_imshow
+uploaded = files.upload()
+filename = list(uploaded.keys())[0]
+img = cv2.imread(filename, 0)
+edges = cv2.Canny(img, 100, 200)
+cv2_imshow(img)
+cv2_imshow(edges)
