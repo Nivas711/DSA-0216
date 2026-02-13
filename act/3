@@ -1,0 +1,58 @@
+# ==============================
+# Gaussian Pyramid + Canny Edge Detection
+# ==============================
+
+import cv2
+import numpy as np
+from google.colab import files
+from google.colab.patches import cv2_imshow
+
+# 1️⃣ Upload Image
+uploaded = files.upload()
+filename = list(uploaded.keys())[0]
+ 
+
+ 
+# Read Image
+image = cv2.imread(filename)
+if image is None:
+    print("Error loading image")
+else:
+    print("Image loaded successfully")
+
+# Convert to Gray
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# ==============================
+# 2️⃣ Generate Gaussian Pyramid
+# ==============================
+
+level0 = gray                     # Original
+level1 = cv2.pyrDown(level0)      # Half size
+level2 = cv2.pyrDown(level1)      # Quarter size
+level3 = cv2.pyrDown(level2)      # One-eighth size
+
+# ==============================
+# 3️⃣ Apply Canny Edge Detection
+# ==============================
+
+edges0 = cv2.Canny(level0, 100, 200)
+edges1 = cv2.Canny(level1, 100, 200)
+edges2 = cv2.Canny(level2, 100, 200)
+edges3 = cv2.Canny(level3, 100, 200)
+
+# ==============================
+# Display Results
+# ==============================
+
+print("Level 0 - Original Size:", level0.shape)
+cv2_imshow(edges0)
+
+print("Level 1 - Half Size:", level1.shape)
+cv2_imshow(edges1)
+
+print("Level 2 - Quarter Size:", level2.shape)
+cv2_imshow(edges2)
+
+print("Level 3 - One-Eighth Size:", level3.shape)
+cv2_imshow(edges3)
